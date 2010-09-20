@@ -14,7 +14,7 @@ end
 
 spec = Gem::Specification.new do |s|
   s.name = "expression_parser"
-  s.version = "1.0.0"
+  s.version = "0.9.0"
   s.author = "Lukasz Wrobel"
   s.homepage = "http://lukaszwrobel.pl/blog/math-parser-part-3-implementation"
   s.platform = Gem::Platform::RUBY
