@@ -79,6 +79,8 @@ module MathParser
 	token.value = 3.1415926535898
       when /\Amod/
 	token.kind = Token::MOD
+      when /\A!=/
+	token.kind = Token::NotEqual
       when /\A<>/
 	token.kind = Token::NotEqual
       when /\A>=/
