@@ -13,8 +13,14 @@ module MathParser
     RParen   = 6
 
     MOD      = 7
+    GThan    = 8
+    LThan    = 9
+    Equal    = 10
+    NotEqual = 11
+    GThanE   = 12
+    LThanE   = 13
 
-    End      = 8
+    End      = 14
 
     attr_accessor :kind
     attr_accessor :value
@@ -73,6 +79,18 @@ module MathParser
 	token.value = 3.1415926535898
       when /\Amod/
 	token.kind = Token::MOD
+      when /\A<>/
+	token.kind = Token::NotEqual
+      when /\A>=/
+	token.kind = Token::GThanE
+      when /\A>/
+	token.kind = Token::GThan
+      when /\A<=/
+	token.kind = Token::LThanE
+      when /\A</
+	token.kind = Token::LThan
+      when /\A=/
+	token.kind = Token::Equal
       end
 
       raise "Unknown token #{@input}" if token.unknown?
@@ -92,12 +110,26 @@ module MathParser
       @lexer = Lexer.new(input)
 
       expression_value = expression
-
       token = @lexer.get_next_token
       if token.kind == Token::End
 	expression_value
       else
-	raise 'End expected'
+	case token.kind
+        when Token::GThan
+	  expression_value > expression ? 1 : 0
+	when Token::LThan
+	  expression_value < expression ? 1 : 0
+	when Token::Equal
+	  expression_value == expression ? 1 : 0
+	when Token::NotEqual
+	  expression_value != expression ? 1 : 0
+	when Token::GThanE
+	  expression_value >= expression ? 1 : 0
+	when Token::LThanE
+	  expression_value <= expression ? 1 : 0
+	else
+	  raise 'End expected'
+	end
       end
     end
 
