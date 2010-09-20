@@ -1,7 +1,8 @@
+# Taken from http://lukaszwrobel.pl/blog/math-parser-part-3-implementation
 require 'rubygems'
-require 'math_parser'
+require 'expression_parser'
 
-parser = MathParser::Parser.new
+parser = ExpressionParser::Parser.new
 
 loop do
   begin

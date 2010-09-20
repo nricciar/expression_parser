@@ -1,5 +1,5 @@
-require File.join(File.dirname(__FILE__),'lib/math_parser')
-include MathParser
+require File.join(File.dirname(__FILE__),'lib/expression_parser')
+include ExpressionParser
 
 describe Parser do
   before(:each) do
