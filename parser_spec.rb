@@ -105,5 +105,30 @@ describe Parser do
     lambda {@parser.parse('((2)) * ((3')}.should raise_error()
     lambda {@parser.parse('((9)) * ((1)')}.should raise_error()
   end
+
+  it 'should return 1 for 2>1' do
+    @parser.parse('2>1').should == 1
+  end
+
+  it 'should return 0 for 1>2' do
+    @parser.parse('1>2').should == 0
+  end
+
+  it 'should return 1 for 2=2' do
+    @parser.parse('2=2').should == 1
+  end
+
+  it 'should return 1 for 1+1>=2' do
+    @parser.parse('1+1>=2').should == 1
+  end
+
+  it 'should return 1 for 3<=1+1' do
+    @parser.parse('3<=1+1+1').should == 1
+  end
+
+  it 'should return 2 for (2>1)+1' do
+    lambda {@parser.parse('(2>1)+1')}.should == 2
+  end
+
 end
 
