@@ -33,7 +33,7 @@ describe Parser do
   it 'should treat dot separated floating point numbers as a valid input' do
     @parser.parse('2.5').should == 2.5
     @parser.parse('4*2.5 + 8.5+1.5 / 3.0').should == 19
-    @parser.parse('5.0005 + 0.0095').should be_close(5.01, 0.01)
+    @parser.parse('5.0005 + 0.0095').should be_within(0.01).of(5.01)
   end
 
   it 'should handle tight expressions' do
@@ -60,8 +60,8 @@ describe Parser do
 
   it 'should return float pointing numbers when division result is not an integer' do
     @parser.parse('10/4').should == 2.5
-    @parser.parse('5/3').should be_close(1.66, 0.01)
-    @parser.parse('3 + 8/5 -1 -2*5').should be_close(-6.4, 0.01)
+    @parser.parse('5/3').should be_within(0.01).of(1.66)
+    @parser.parse('3 + 8/5 -1 -2*5').should be_within(0.01).of(-6.4)
   end
 
   it 'should raise an error on wrong token' do
@@ -127,7 +127,7 @@ describe Parser do
   end
 
   it 'should return 2 for (2>1)+1' do
-    lambda {@parser.parse('(2>1)+1')}.should == 2
+    @parser.parse('(2>1)+1').should == 2
   end
 
 end

@@ -10,26 +10,30 @@ module ExpressionParser
       if token.kind == Token::End
 	expression_value
       else
-	case token.kind
-        when Token::GThan
-	  expression_value > expression ? 1 : 0
-	when Token::LThan
-	  expression_value < expression ? 1 : 0
-	when Token::Equal
-	  expression_value == expression ? 1 : 0
-	when Token::NotEqual
-	  expression_value != expression ? 1 : 0
-	when Token::GThanE
-	  expression_value >= expression ? 1 : 0
-	when Token::LThanE
-	  expression_value <= expression ? 1 : 0
-	else
-	  raise 'End expected'
-	end
+	compare_expr(token,expression_value,expression)
       end
     end
 
     protected
+    def compare_expr(token,expression_value,expression)
+      case token.kind
+      when Token::GThan
+	expression_value > expression ? 1 : 0
+      when Token::LThan
+	expression_value < expression ? 1 : 0
+      when Token::Equal
+	expression_value == expression ? 1 : 0
+      when Token::NotEqual
+	expression_value != expression ? 1 : 0
+      when Token::GThanE
+	expression_value >= expression ? 1 : 0
+      when Token::LThanE
+	expression_value <= expression ? 1 : 0
+      else
+	raise 'End expected'
+      end
+    end
+
     def expression
       component1 = factor
 
@@ -83,7 +87,14 @@ module ExpressionParser
 	value = expression
 
 	expected_rparen = @lexer.get_next_token
-	raise 'Unbalanced parenthesis' unless expected_rparen.kind == Token::RParen
+	if [Token::GThan,Token::LThan,Token::Equal,Token::NotEqual,Token::GThanE,Token::LThanE].include?(expected_rparen.kind)
+	  tmp = expression
+	  value = compare_expr(expected_rparen,value,tmp)
+	  expected_rparen = @lexer.get_next_token
+	end
+
+	expected_rparen
+	raise "Unbalanced parenthesis" unless expected_rparen.kind == Token::RParen
       elsif token.kind == Token::Number
 	value = token.value
       else
