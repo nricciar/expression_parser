@@ -12,6 +12,7 @@ spec = Gem::Specification.new do |s|
   s.homepage = "http://github.com/nricciar/expression_parser"
   s.platform = Gem::Platform::RUBY
   s.summary = "Math parser based on Lukasz Wrobel's blog post"
+  s.license = "MIT"
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_path = "lib"
